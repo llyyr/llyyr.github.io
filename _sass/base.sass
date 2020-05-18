@@ -1,0 +1,99 @@
+html
+  font-family: "Liberation Mono"
+  color: #DDCCBB
+  text-shadow: none
+  background: url('70294782_p0.jpg') no-repeat center center fixed
+  background-size: cover
+
+body:before
+  content: ""
+  position: fixed
+  height: 100%
+  width: 100%
+  z-index: -1
+  top: 0
+  left: 0
+  background: rgba(0, 0, 1, 0.96)
+
+::selection
+  color: white
+  background: rgba(60, 60, 60, 0.35)
+
+ul
+  white-space: nowrap
+  list-style-type: none
+  padding-left: 0pt
+  margin: 0pt 0pt
+
+img
+  max-height: 100%
+  max-width: 100%
+  image-rendering: optimizequality
+
+h1, h2, h3, h4, h5, h6
+  white-space: nowrap
+  margin: 0px
+
+p
+  margin-top: 10pt
+  margin-bottom: 10pt
+
+header
+  margin-left: 10pt
+  margin-right: 10pt
+
+a
+  text-decoration: none
+  color: #FFAA0F
+
+a:visited
+  text-decoration: none
+  color: #FF5D4A
+
+pre, code
+  color: #cba
+  background-color: #111
+  border: 1px dashed #555
+  padding: 1px
+
+pre code
+  border: none
+  padding: none
+  color: #DDCCBB
+
+.left
+  float: left
+
+.right
+  float: right
+
+.circle
+  border-radius: 50%
+
+#index
+  margin-top: 10pt
+  margin-right: 10pt
+  justify-content: space-around
+  display: inline-flex
+
+#index > article
+  width: min-content
+
+#links
+  display: inline-flex
+  text-align: center
+  margin-bottom: 15pt
+  margin-left: 100pt
+  margin-right: 100pt
+
+#links > div
+  display: inline-block
+  padding: 0px 6pt
+
+#profile
+  margin-left: 10pt
+  margin-right: 10pt
+  width: 200pt
+
+#profile > div
+  text-align: center

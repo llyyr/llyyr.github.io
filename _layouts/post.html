@@ -1,0 +1,22 @@
+---
+layout: index
+---
+<section id="blog">
+  <section>
+  <h3><a href="/">Back</a></h3>
+    <header>
+      <h2 class="left">
+        <a href="{{page.url | relative_url}}">
+          {{page.title | escape}}
+        </a>
+      </h2>
+      <h3 class="right">{{page.date | date: "%b %-d, %Y"}}</h3>
+    </header><br>
+    <div>{{content}}</div>
+  </section>
+</section>
+<hr><br>
+<h4>all posts:</h4>
+  {% for post in site.posts %}
+    <p><a href="{{post.url | relative_url}}">{{post.title | escape}}</a> ({{post.date | date: "%b %-d, %Y"}})</p>
+  {% endfor %}
