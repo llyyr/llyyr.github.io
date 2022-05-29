@@ -53,6 +53,9 @@
         </div>
     </div>
     <script>
+        window.onhashchange = function() {
+            window.location.reload();
+        }
         function playVideo(url) {
             if (!url || !url.trim || !url.trim()) return;
             document.getElementById("a").remove();
