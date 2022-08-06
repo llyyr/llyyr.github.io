@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Video</title>
+        <style>
+            :root {
+                --background: #080C0D;
+                --foreground: #DDCCBB;
+                --highlight-dark: #5d5d5d;
+            }
+
+            @font-face {
+                font-family: Regular;
+                src: url('/static/fonts/iosevka-aile-custom-regular.woff2');
+            }
+
+            body {
+                font: 1.06rem/1.55 Regular, system-ui, sans-serif;
+                background: var(--background);
+                color: var(--foreground);
+                overflow: hidden;
+            }
+
+            video {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+
+            #body {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-right: -50%;
+                margin-left: auto;
+                transform: translate(-50%, -50%);
+                max-width: 90%;
+            }
+
+            #url {
+                background: #222;
+                border: none;
+                font: 1.06rem/1.55 Regular, sans-serif;
+                caret-color: var(--foreground);
+            }
+
+            #url:not(:placeholder-shown), #s:focus {
+                color: var(--foreground);
+            }
+
+            #url:placeholder-shown:focus::placeholder {
+                color: var(--highlight-dark);
+            }
+
+            *::placeholder {
+                color: var(--foreground);
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <input type="text" id="url" placeholder="Enter direct video url">
+            <input type="button" value="Play" id="play_button">
+        </div>
+        <script>
+            window.onhashchange = function() {
+                window.location.reload();
+            }
+
+            function playVideo(url) {
+                if (!url || !url.trim || !url.trim()) return;
+                document.getElementById("body").remove();
+                let video = document.createElement("video");
+                video.src = url;
+                video.controls = true;
+                document.body.appendChild(video);
+                document.location.hash = url;
+            }
+
+            document.getElementById("play_button").addEventListener("click", () => {
+                let url = document.getElementById("url").value;
+                playVideo(url);
+            });
+
+            document.getElementById("url").addEventListener("keypress", function(e) {
+                if (e.key === "Enter") {
+                    let url = document.getElementById("url").value;
+                    playVideo(url);
+                }
+            });
+
+            if (document.location.hash) {
+                let url = document.location.hash.substr(1);
+                playVideo(url);
+                document.title = url;
+            }
+        </script>
+    </body>
+</html>
