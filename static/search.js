@@ -31,13 +31,13 @@ function search() {
 }
 
 input.addEventListener('keyup', (event) => {
-  if (location.pathname == '/') {
+  if (location.pathname == '/blog') {
     search();
   } else if (event.key === 'Enter') {
     let url = new URL(location.origin);
     let params = new URLSearchParams(url.search);
     params.set('query', input.value.toLowerCase());
-    window.location.href = '/?' + params.toString();
+    window.location.href = '/blog/?' + params.toString();
   }
 });
 

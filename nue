@@ -63,7 +63,7 @@ t:tags() {
   read -r -a tags <<< "$(f:meta "$1" tags)"
   local out
   for tag in "${tags[@]}"; do
-    out+="#<a href='blog/?query=%23$tag' class='bold'>$tag</a> "
+    out+="#<a href='/blog/?query=%23$tag' class='bold'>$tag</a> "
   done
   echo -n "${out::-1}"
 }
@@ -77,7 +77,7 @@ t:card() {
         $(t:date "$1")
         <a href='/blog/$1' class='bold'>$(f:meta "$1" name)</a>
         <div>$(f:meta "$1" peek)</div>
-        <span style='display: none;'>$(t:tags "$1")</span>
+        <span>$(t:tags "$1")</span>
       </section>"
 }
 
