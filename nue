@@ -107,10 +107,10 @@ build() {
         done < <(find blog -name '*.md' -printf '%p\n' | sort -r))
     </main>")" > blog/index.html
 
-  echo "t:body about"
+  echo "t:body about - llyyr"
   echo "$(t:body "about" "$(render "$(<about/raw.md)")")" > "about/index.html"
 
-  echo "t:body projects"
+  echo "t:body projects - llyyr"
   echo "$(t:body "projects" "$(render "$(<projects/raw.md)")")" > "projects/index.html"
 
   for blog in "blog/"*; do

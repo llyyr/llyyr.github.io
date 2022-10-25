@@ -2,6 +2,8 @@
 
 various things of varying levels of questionable usefulness
 
+[cr_bbb](https://github.com/llyyr/cr_bbb) - scraping cricket ball by ball data from various sites
+
 [player](/player) - simple page which embeds a video URL with the browser html5 player. useful for watching videos that are served as attachments or for use with [Metastream](https://getmetastream.com).
 
 [Imthatcreativewithnames](https://github.com/llyyr/Imthatcreativewithnames) - discord theme that looks a lot like this website.
