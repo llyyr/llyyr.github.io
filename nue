@@ -30,7 +30,7 @@ f:edit() {
 }
 
 render() {
-  pandoc --toc <<< "$*"
+  pandoc --from markdown-smart-fancy_lists+pipe_tables+all_symbols_escapable+raw_html+inline_notes+fenced_divs --to html <<< "$*"
 }
 
 t:body() {
@@ -53,6 +53,7 @@ t:body() {
     </nav>
     <span style='white-space: nowrap;'>there will eventually be things here</span>
     ${2}
+    <span class='feed'><a href='/atom.xml'>rss</a></span>
     <script type='module' src='/static/search.js'></script>
   </body>
 </html>
@@ -93,6 +94,35 @@ t:post() {
   "
 }
 
+t:rssbody() {
+  echo -n "<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<feed xmlns='http://www.w3.org/2005/Atom'>
+  <title>${1}</title>
+  <link href='${2}/blog/'/>
+    <link href='${2}/blog/atom.xml' rel='self' type='application/atom+xml' />
+    <updated>$(date -Iseconds)</updated>
+  <author>
+    <name>${1}</name>
+  </author>
+  <generator>nue</generator>
+  <id>${2}/blog/</id>
+
+  ${3}
+
+  </feed>"
+}
+
+t:rssentry() {
+  echo -n "<link rel='alternate' href='https://llyyr.yukari.in/blog/$1'/>
+        <id>https://llyyr.yukari.in/blog/$1</id>
+        <published>$(date -Iseconds -d@$1)</published>
+        <updated>$(date -Iseconds -d@$1)</updated>
+        <summary>$(f:meta "$1" peek)</summary>
+        <a href='/blog/$1' class='bold'>$(f:meta "$1" name)</a>
+        <content type='html'>$(render "$(tail -n+7 blog/$1/raw.md)")</content>
+        <category term='$(f:meta "$1" tags)'/>"
+}
+
 build() {
   echo "t:body index"
   echo "$(t:body "llyyr" "$(render "$(<raw.md)")")" > "index.html"
@@ -115,7 +145,7 @@ build() {
 
   for blog in "blog/"*; do
     blog=${blog##*/}
-    if [ $blog == "index.html" ]; then
+    if [ $blog == "index.html" ] || [ $blog == "atom.xml" ]; then
       continue
     fi
     if [ "blog/$blog/raw.md" -nt "blog/$blog/index.html" ] || [ "nue" -nt "blog/$blog/index.html" ]; then
@@ -123,6 +153,16 @@ build() {
       echo "$(t:post "$blog")" > "blog/$blog/index.html"
     fi
   done
+
+  echo "t:rssbody"
+  echo "$(t:rssbody "llyyr" "https://llyyr.yukari.in" "<entry>
+      <title>llyyr</title>
+      $(while read -r blog; do
+          blog=${blog/\/raw.md/}
+          blog=${blog##*/}
+          [[ "$(f:meta "$blog" tags)" == *"draft"* ]] || t:rssentry "$blog"
+        done < <(find blog -name '*.md' -printf '%p\n' | sort -r))
+    </entry>")" > atom.xml
 }
 
 subcmd=$1 ; shift

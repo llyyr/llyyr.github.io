@@ -41,6 +41,12 @@ body {
   overflow-x: hidden;
 }
 
+.feed {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
 th {
   font-family: Semibold, sans-serif;
   text-align: left;

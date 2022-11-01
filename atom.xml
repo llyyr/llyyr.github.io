@@ -1,31 +1,24 @@
-<!doctype html>
-<html lang='en'>
-  <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='shortcut icon' href='/static/favicon.png' type='image/x-icon'>
-    <link href='/static/style.css' rel='stylesheet' type='text/css'>
-    <title>	recreating this site</title>
-  </head>
-  <body>
-    <nav>
-      <a href='/' class='bold'>home</a>
-      <a href='/blog'>blog</a>
-      <a href='/projects'>projects</a>
-      <a href='/about' class='bold'>about</a>
-      <input type='text' id='s' placeholder='search'/>
-    </nav>
-    <span style='white-space: nowrap;'>there will eventually be things here</span>
-    <main>
-    <article>
-      <h1>	recreating this site</h1>
-      <!--
-name: recreating this site
-peek: talking about this site and why it exists
-tags: meta blog
-date: 1659822560
--->
-<p>This blog used to be made with Jekyll on Github Pages (which can
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<feed xmlns='http://www.w3.org/2005/Atom'>
+  <title>llyyr</title>
+  <link href='https://llyyr.yukari.in/blog/'/>
+    <link href='https://llyyr.yukari.in/blog/atom.xml' rel='self' type='application/atom+xml' />
+    <updated>2022-11-01T12:09:37+05:30</updated>
+  <author>
+    <name>llyyr</name>
+  </author>
+  <generator>nue</generator>
+  <id>https://llyyr.yukari.in/blog/</id>
+
+  <entry>
+      <title>llyyr</title>
+      <link rel='alternate' href='https://llyyr.yukari.in/blog/1659822560'/>
+        <id>https://llyyr.yukari.in/blog/1659822560</id>
+        <published>2022-08-07T03:19:20+05:30</published>
+        <updated>2022-08-07T03:19:20+05:30</updated>
+        <summary>	talking about this site and why it exists</summary>
+        <a href='/blog/1659822560' class='bold'>	recreating this site</a>
+        <content type='html'><p>This blog used to be made with Jekyll on Github Pages (which can
 still be found at the <a
 href="https://github.com/llyyr/llyyr.github.io/tree/old-blog">old-blog</a>
 branch of the git repo), so why rewrite it so it's pre-generated with a
@@ -235,13 +228,8 @@ role="doc-endnotes">
 <li id="fn1"><p>Footnote text goes here.<a href="#fnref1"
 class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
-      <div id='meta'><time datetime='2022-08-07 03:19'>070822</time> #<a href='/blog/?query=%23meta' class='bold'>meta</a> #<a href='/blog/?query=%23blog' class='bold'>blog</a></div>
-    </article>
-  </main>
-  
-    <span class='feed'><a href='/atom.xml'>rss</a></span>
-    <script type='module' src='/static/search.js'></script>
-  </body>
-</html>
-  
+</section></content>
+        <category term='	meta blog'/>
+    </entry>
+
+  </feed>
