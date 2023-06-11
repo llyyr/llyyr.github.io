@@ -1,12 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
-f:new() {
+f_new() {
   timestamp="$(date +%s)"
   mkdir -p "blog/$timestamp"
   echo -e "<!--\nname: \npeek: \ntags: draft \ndate: $timestamp\n-->" > "blog/$timestamp/raw.md"
 }
 
-f:meta(){
+f_meta() {
   local kvpair_re='(.*):[[:space:]](.*)'
   declare -A meta
   while read -r line; do
@@ -22,9 +22,11 @@ f:meta(){
   echo "${out::-1}"
 }
 
-f:edit() {
+f_edit() {
   raw="$(for blog in "blog/"*; do
-    f:meta "${blog##*/}" date name peek tags
+    if [ "${blog##*/}" != "index.html" ]; then
+      f_meta "${blog##*/}" date name peek tags
+    fi
   done | awk -F "	" '{ print $1" "$2" "$3" ("$4")" }' | fzf)"
   [[ -n "$raw" ]] && $EDITOR "$(awk -F " " '{ print "blog/"$1"/raw.md" }' <<< "$raw")"
 }
@@ -33,7 +35,7 @@ render() {
   pandoc --from markdown-smart-fancy_lists+pipe_tables+all_symbols_escapable+raw_html+inline_notes+fenced_divs --to html <<< "$*"
 }
 
-t:body() {
+t_body() {
   echo -n "<!doctype html>
 <html lang='en'>
   <head>
@@ -60,8 +62,8 @@ t:body() {
   "
 }
 
-t:tags() {
-  read -r -a tags <<< "$(f:meta "$1" tags)"
+t_tags() {
+  read -r -a tags <<< "$(f_meta "$1" tags)"
   local out
   for tag in "${tags[@]}"; do
     out+="#<a href='/blog/?query=%23$tag' class='bold'>$tag</a> "
@@ -69,32 +71,32 @@ t:tags() {
   echo -n "${out::-1}"
 }
 
-t:date() {
+t_date() {
   echo "<time datetime='$(date '+%Y-%m-%d %H:%M' -d "@$1")'>$(date '+%d%m%y' -d "@$1")</time>"
 }
 
-t:card() {
+t_card() {
   echo -n "<section>
-        $(t:date "$1")
-        <a href='/blog/$1' class='bold'>$(f:meta "$1" name)</a>
-        <div>$(f:meta "$1" peek)</div>
-        <span>$(t:tags "$1")</span>
+        $(t_date "$1")
+        <a href='/blog/$1' class='bold'>$(f_meta "$1" name)</a>
+        <div>$(f_meta "$1" peek)</div>
+        <span>$(t_tags "$1")</span>
       </section>"
 }
 
-t:post() {
-  local name ; name="$(f:meta "$1" name)"
-  t:body "$name" "<main>
+t_post() {
+  local name ; name="$(f_meta "$1" name)"
+  t_body "$name" "<main>
     <article>
       <h1>$name</h1>
       $(render "$(<"blog/$1/raw.md")")
-      <div id='meta'>$(t:date "$1") $(t:tags "$1")</div>
+      <div id='meta'>$(t_date "$1") $(t_tags "$1")</div>
     </article>
   </main>
   "
 }
 
-t:rssbody() {
+t_rssbody() {
   echo -n "<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <feed xmlns='http://www.w3.org/2005/Atom'>
   <title>${1}</title>
@@ -112,36 +114,36 @@ t:rssbody() {
   </feed>"
 }
 
-t:rssentry() {
+t_rssentry() {
   echo -n "<link rel='alternate' href='https://llyyr.yukari.in/blog/$1'/>
         <id>https://llyyr.yukari.in/blog/$1</id>
         <published>$(date -Iseconds -d@$1)</published>
         <updated>$(date -Iseconds -d@$1)</updated>
-        <summary>$(f:meta "$1" peek)</summary>
-        <a href='/blog/$1' class='bold'>$(f:meta "$1" name)</a>
+        <summary>$(f_meta "$1" peek)</summary>
+        <a href='/blog/$1' class='bold'>$(f_meta "$1" name)</a>
         <content type='html'>$(render "$(tail -n+7 blog/$1/raw.md)")</content>
-        <category term='$(f:meta "$1" tags)'/>"
+        <category term='$(f_meta "$1" tags)'/>"
 }
 
 build() {
-  echo "t:body index"
-  echo "$(t:body "llyyr" "$(render "$(<raw.md)")")" > "index.html"
+  echo "t_body index"
+  echo "$(t_body "llyyr" "$(render "$(<raw.md)")")" > "index.html"
 
-  echo "t:body blog index"
-  echo "$(t:body "blog - llyyr" "<main>
+  echo "t_body blog index"
+  echo "$(t_body "blog - llyyr" "<main>
       <h1>blog</h1>
       $(while read -r blog; do
           blog=${blog/\/raw.md/}
           blog=${blog##*/}
-          [[ "$(f:meta "$blog" tags)" == *"draft"* ]] || t:card "$blog"
+          [[ "$(f_meta "$blog" tags)" == *"draft"* ]] || t_card "$blog"
         done < <(find blog -name '*.md' -printf '%p\n' | sort -r))
     </main>")" > blog/index.html
 
-  echo "t:body about - llyyr"
-  echo "$(t:body "about" "$(render "$(<about/raw.md)")")" > "about/index.html"
+  echo "t_body about - llyyr"
+  echo "$(t_body "about" "$(render "$(<about/raw.md)")")" > "about/index.html"
 
-  echo "t:body projects - llyyr"
-  echo "$(t:body "projects" "$(render "$(<projects/raw.md)")")" > "projects/index.html"
+  echo "t_body projects - llyyr"
+  echo "$(t_body "projects" "$(render "$(<projects/raw.md)")")" > "projects/index.html"
 
   for blog in "blog/"*; do
     blog=${blog##*/}
@@ -149,26 +151,26 @@ build() {
       continue
     fi
     if [ "blog/$blog/raw.md" -nt "blog/$blog/index.html" ] || [ "nue" -nt "blog/$blog/index.html" ]; then
-      echo "t:post $blog"
-      echo "$(t:post "$blog")" > "blog/$blog/index.html"
+      echo "t_post $blog"
+      echo "$(t_post "$blog")" > "blog/$blog/index.html"
     fi
   done
 
-  echo "t:rssbody"
-  echo "$(t:rssbody "llyyr" "https://llyyr.yukari.in" "<entry>
+  echo "t_rssbody"
+  echo "$(t_rssbody "llyyr" "https://llyyr.yukari.in" "<entry>
       <title>llyyr</title>
       $(while read -r blog; do
           blog=${blog/\/raw.md/}
           blog=${blog##*/}
-          [[ "$(f:meta "$blog" tags)" == *"draft"* ]] || t:rssentry "$blog"
+          [[ "$(f_meta "$blog" tags)" == *"draft"* ]] || t_rssentry "$blog"
         done < <(find blog -name '*.md' -printf '%p\n' | sort -r))
     </entry>")" > atom.xml
 }
 
 subcmd=$1 ; shift
 case $subcmd in
-  -n|new)  f:new ;;
-  -e|edit) f:edit ;;
+  -n|new)  f_new ;;
+  -e|edit) f_edit ;;
   -b|build) build ;;
   *) echo "static website generator" ;;
 esac
