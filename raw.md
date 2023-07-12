@@ -1,6 +1,6 @@
 # site
 
-[twitter](https://twitter.com/llyyr)
+[fediverse](https://fedi.yukari.in/llyyr)
 
 [discord](discord://open/users/84794819573981184)
 
