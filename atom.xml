@@ -3,7 +3,7 @@
   <title>llyyr</title>
   <link href='https://llyyr.yukari.in/blog/'/>
     <link href='https://llyyr.yukari.in/blog/atom.xml' rel='self' type='application/atom+xml' />
-    <updated>2023-07-13T03:00:23+05:30</updated>
+    <updated>2024-01-18T23:11:04+05:30</updated>
   <author>
     <name>llyyr</name>
   </author>
@@ -221,14 +221,14 @@ double-dollarsigns:</p>
 class="math display"><em>I</em> = ∫<em>ρ</em><em>R</em><sup>2</sup><em>d</em><em>V</em></span></p>
 <p>And note that you can backslash-escape any punctuation characters
 which you wish to be displayed literally, ex.: `foo`, *bar*, etc.</p>
-<aside id="footnotes" class="footnotes footnotes-end-of-document"
+<section id="footnotes" class="footnotes footnotes-end-of-document"
 role="doc-endnotes">
 <hr />
 <ol>
 <li id="fn1"><p>Footnote text goes here.<a href="#fnref1"
 class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</aside></content>
+</section></content>
         <category term='	meta blog'/>
     </entry>
 

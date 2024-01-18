@@ -6,6 +6,6 @@
 
 [github](https://github.com/llyyr)
 
-[mail](mailto:llyyr.public@gmail.com)
+[mail](mailto:llyyr@yukari.in)
 
 gpg: [7976433E656E4C1F](/publickey.txt)
